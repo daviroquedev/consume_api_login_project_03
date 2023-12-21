@@ -2,16 +2,14 @@ import 'package:consume_api_login_project_03/controllers/home_controller.dart';
 import 'package:consume_api_login_project_03/src/modules/logged/view/user_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../controllers/login_controller.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _MyWidgetState();
+  State<LoginScreen> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<HomeScreen> {
+class _MyWidgetState extends State<LoginScreen> {
   bool _obscureText = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
