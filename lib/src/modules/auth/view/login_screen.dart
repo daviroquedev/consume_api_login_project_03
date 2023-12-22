@@ -1,4 +1,4 @@
-import 'package:consume_api_login_project_03/controllers/home_controller.dart';
+import 'package:consume_api_login_project_03/controllers/login_controller.dart';
 import 'package:consume_api_login_project_03/src/modules/logged/view/user_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +13,7 @@ class _MyWidgetState extends State<LoginScreen> {
   bool _obscureText = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final HomeController _loginController =
-      HomeController(); // Instância do LoginController
+  final LoginController _loginController = LoginController();
 
   @override
   void dispose() {
@@ -28,26 +27,24 @@ class _MyWidgetState extends State<LoginScreen> {
     String password = _passwordController.text;
 
     try {
-      Map dataUser = await _loginController.loginUser(username, password);
-      Map<String, dynamic> convertedDataUser =
-          Map<String, dynamic>.from(dataUser);
-      print('dataUser AQUI OH $dataUser');
+      String dataUser = await _loginController.loginUser(username, password);
 
-      // Faça uma nova requisição à API para obter os dados do usuário usando o dataUser
       if (dataUser != null) {
-        print('Dados do usuário nulos');
-        print('dataUser EN EN $dataUser');
-
-        // ignore: use_build_context_synchronously
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => UserProfilePage(userData: convertedDataUser),
+            builder: (context) => UserProfilePage(token: dataUser),
           ),
         );
       }
     } catch (e) {
-      print('Erro ao fazer login: $e');
+      String errorMessage = '$e';
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+        ),
+      );
     }
   }
 
@@ -133,21 +130,19 @@ class _MyWidgetState extends State<LoginScreen> {
                             4), // Adiciona elevação
                         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                           const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 32), // Ajusta o padding
+                              vertical: 16, horizontal: 32),
                         ),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                8), // Reduz o border radius
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all(
-                          const Color.fromRGBO(72, 3, 137, 30), // Cor de fundo
+                          const Color.fromRGBO(72, 3, 137, 30),
                         ),
                         shadowColor: MaterialStateProperty.all(
-                          Colors.black
-                              .withOpacity(0.3), // Define a cor da sombra
+                          Colors.black.withOpacity(0.3),
                         ),
                       ),
                       child: const Text('Login',
