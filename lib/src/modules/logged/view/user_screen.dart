@@ -165,7 +165,6 @@ class UserProfilePage extends StatelessWidget {
                 onPressed: () async {
                   await loginController.logout(context);
                 },
-                child: const Text('DESLOGAR'),
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all<double>(4),
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -186,6 +185,7 @@ class UserProfilePage extends StatelessWidget {
                     Colors.white, // Define a cor do texto como branco
                   ),
                 ),
+                child: const Text('DESLOGAR'),
               )
             ],
           ),

@@ -34,7 +34,6 @@ class LoginController {
       if (response.statusCode == 200) {
         final token = response.data['token'] as String;
 
-        // Salvar o token no SharedPreferences
         await _prefs.setString('userToken', token);
 
         return token;
@@ -45,11 +44,11 @@ class LoginController {
       if (e.response?.statusCode == 400) {
         throw Exception('Credenciais inválidas');
       }
-      throw Exception('${e.response?.statusCode}');
+      throw FlutterError('${e.response?.statusCode}');
     }
   }
 
-  Future<void> logout(BuildContext context) async {
+  Future<void> logout(context) async {
     try {
       await _prefs.remove('userToken');
       Navigator.pushReplacementNamed(context, '/login');

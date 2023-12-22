@@ -14,6 +14,7 @@ class _MyWidgetState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final LoginController _loginController = LoginController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -22,29 +23,41 @@ class _MyWidgetState extends State<LoginScreen> {
     super.dispose();
   }
 
+  String? _validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, insira seu nome de usuário';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, insira sua senha';
+    }
+    return null;
+  }
+
   Future<void> _handleLogin() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    try {
-      String dataUser = await _loginController.loginUser(username, password);
+    if (_formKey.currentState!.validate()) {
+      try {
+        String dataUser = await _loginController.loginUser(username, password);
 
-      if (dataUser != null) {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => UserProfilePage(token: dataUser),
           ),
         );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$e'),
+          ),
+        );
       }
-    } catch (e) {
-      String errorMessage = '$e';
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-        ),
-      );
     }
   }
 
@@ -71,86 +84,92 @@ class _MyWidgetState extends State<LoginScreen> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Image.asset(
-                  'assets/images/logo_branca.png',
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: MediaQuery.of(context).size.height * 0.1,
-                ),
-                Column(
-                  children: [
-                    TextFormField(
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        fillColor: Color.fromARGB(255, 242, 35, 201),
-                        filled: true,
-                        labelText: 'Insira seu nome de usuário',
-                        hintText: 'Usuário',
-                        hintStyle: TextStyle(
-                          color: Colors.black26,
-                          fontSize: 16,
-                        ),
-                        focusColor: Color.fromARGB(255, 249, 114, 220),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: _obscureText,
-                      decoration: InputDecoration(
-                        fillColor: const Color.fromARGB(255, 242, 35, 201),
-                        filled: true,
-                        labelText: 'Insira sua Senha',
-                        hintText: 'Senha',
-                        hintStyle: const TextStyle(
-                            color: Colors.black26, fontSize: 16),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset(
+                    'assets/images/logo_branca.png',
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  Column(
+                    children: [
+                      TextFormField(
+                        controller: _usernameController,
+                        decoration: const InputDecoration(
+                          fillColor: Color.fromARGB(255, 242, 35, 201),
+                          filled: true,
+                          labelText: 'Insira seu nome de usuário',
+                          hintText: 'Usuário',
+                          hintStyle: TextStyle(
+                            color: Colors.black26,
+                            fontSize: 16,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _obscureText = !_obscureText;
-                            });
-                          },
+                          focusColor: Color.fromARGB(255, 249, 114, 220),
+                          border: OutlineInputBorder(),
                         ),
+                        validator: _validateUsername,
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _handleLogin,
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.all<double>(
-                            4), // Adiciona elevação
-                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                          const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 32),
-                        ),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscureText,
+                        decoration: InputDecoration(
+                          fillColor: const Color.fromARGB(255, 242, 35, 201),
+                          filled: true,
+                          labelText: 'Insira sua Senha',
+                          hintText: 'Senha',
+                          hintStyle: const TextStyle(
+                              color: Colors.black26, fontSize: 16),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all(
-                          const Color.fromRGBO(72, 3, 137, 30),
-                        ),
-                        shadowColor: MaterialStateProperty.all(
-                          Colors.black.withOpacity(0.3),
-                        ),
+                        validator: _validatePassword,
                       ),
-                      child: const Text('Login',
-                          style: TextStyle(color: Colors.white)),
-                    )
-                  ],
-                ),
-              ],
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _handleLogin,
+                        style: ButtonStyle(
+                          elevation: MaterialStateProperty.all<double>(
+                              4), // Adiciona elevação
+                          padding:
+                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                            const EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 32),
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all(
+                            const Color.fromRGBO(72, 3, 137, 30),
+                          ),
+                          shadowColor: MaterialStateProperty.all(
+                            Colors.black.withOpacity(0.3),
+                          ),
+                        ),
+                        child: const Text('Login',
+                            style: TextStyle(color: Colors.white)),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
