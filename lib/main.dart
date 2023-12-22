@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FutureBuilder(
+      home: FutureBuilder<String?>(
         future: _loginController.isLoggedIn(),
         builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
                   token: token,
                 );
               } catch (e) {
+                print('Erro ao decodificar token: $e');
+
                 return const Scaffold(
                   body: Center(
                     child: Text('Token inválido!'),
@@ -44,6 +46,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/login': (context) => const LoginScreen(),
+        '/profile': (context) =>
+            UserProfilePage(token: ''), // Página de perfil vazia como exemplo
       },
     );
   }

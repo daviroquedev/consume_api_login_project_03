@@ -20,137 +20,143 @@ class UserProfilePage extends StatelessWidget {
       ),
       backgroundColor: const Color.fromARGB(255, 70, 1, 76),
       body: Center(
+          child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 380,
-              child: Card(
-                elevation: 2,
-                color: Color.fromARGB(255, 164, 204, 228),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 5.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'IDENTIFICATION CARD',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Roboto'),
-                            )
-                          ]),
-                    ),
-                    Container(
-                      height: 1,
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Card(
+                    elevation: 2,
+                    color: const Color.fromARGB(255, 164, 204, 228),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 5.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'IDENTIFICATION CARD',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Roboto'),
+                                )
+                              ]),
+                        ),
+                        Container(
+                          height: 1,
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(height: 10),
-                              Container(
-                                width: 135,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 2,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    width: 130,
+                                    height: 135,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 2,
+                                        ),
+                                        color: const Color.fromARGB(
+                                            255, 2, 113, 173)),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.network(
+                                        '${userInformation.image}',
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                    color:
-                                        const Color.fromARGB(255, 2, 113, 173)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    '${userInformation.image}',
-                                    fit: BoxFit.cover,
                                   ),
-                                ),
+                                  Text(
+                                    '${userInformation.username}',
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Assing'),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                '${userInformation.username}',
-                                style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Assing'),
+                              const SizedBox(width: 10),
+                              Container(
+                                height: 180,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ID ${userInformation.id}',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 1),
+                                      Text(
+                                        '${userInformation.firstName}',
+                                        style: const TextStyle(
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text('${userInformation.lastName}',
+                                          style: const TextStyle(
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        '${userInformation.gender}',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        '${userInformation.email}',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ]),
                               ),
                             ],
                           ),
-                          const SizedBox(width: 10),
-                          Container(
-                            height: 180,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'ID ${userInformation.id}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 1),
-                                  Text(
-                                    '${userInformation.firstName}',
-                                    style: const TextStyle(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text('${userInformation.lastName}',
-                                      style: const TextStyle(
-                                        fontSize: 26,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    '${userInformation.gender}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    '${userInformation.email}',
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ]),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
               onPressed: () async {
-                await loginController.removeToken(context);
+                await loginController.logout(context);
               },
               child: const Text('DESLOGAR'),
               style: ButtonStyle(
@@ -164,7 +170,7 @@ class UserProfilePage extends StatelessWidget {
                   ),
                 ),
                 backgroundColor: MaterialStateProperty.all(
-                  Color.fromARGB(225, 176, 93, 221),
+                  const Color.fromARGB(225, 176, 93, 221),
                 ),
                 shadowColor: MaterialStateProperty.all(
                   Colors.black.withOpacity(0.3),
@@ -176,7 +182,7 @@ class UserProfilePage extends StatelessWidget {
             )
           ],
         ),
-      ),
+      )),
     );
   }
 }

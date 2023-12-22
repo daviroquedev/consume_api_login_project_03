@@ -49,7 +49,7 @@ class LoginController {
     }
   }
 
-  Future<void> removeToken(BuildContext context) async {
+  Future<void> logout(BuildContext context) async {
     try {
       await _prefs.remove('userToken');
       Navigator.pushReplacementNamed(context, '/login');
